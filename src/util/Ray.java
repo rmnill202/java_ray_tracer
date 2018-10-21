@@ -24,6 +24,10 @@ public class Ray {
         return (origin.add(direction.mult(t)));
     }
 
+    public Vec3 direction() {
+        return this.direction;
+    }
+
     @Override // For debugging purposes
     public String toString() {
         return origin.toString() + " -> " + direction.toString();
