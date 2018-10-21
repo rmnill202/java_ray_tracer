@@ -23,4 +23,9 @@ public class Ray {
     public Vec3 pointAt(float t) {
         return (origin.add(direction.mult(t)));
     }
+
+    @Override // For debugging purposes
+    public String toString() {
+        return origin.toString() + " -> " + direction.toString();
+    }
 }

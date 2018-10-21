@@ -8,6 +8,7 @@ public class Main {
     // TO DO - Generic mapping between input args and chapters
 
     public static void main(String[] args) {
-        Chapter_1.run();
+        //Chapter_1.run();
+        new Chapter_3().print();
     }
 }

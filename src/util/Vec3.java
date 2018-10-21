@@ -43,4 +43,9 @@ public class Vec3 {
     public Vec3 mult(float f) {
         return new Vec3(e[0] * f, e[1] * f, e[2] * f);
     }
+
+    @Override // For debugging purposes
+    public String toString() {
+        return e[0] + "," + e[1] + "," + e[2];
+    }
 }
