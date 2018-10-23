@@ -23,6 +23,19 @@ public class Vec3 {
     public float r() {return e[0];} public float g() {return e[1];} public float b() {return e[2];}
 
     // Immutable vector operations
+
+    /**
+     * The length of a vector can be found by squaring each component, adding those values together and taking
+     *   the square root of that summation.
+     *
+     * Also known as the magnitude of the vector.
+     *
+     * @return The length of this vector.
+     */
+    public float length() {
+        return (float) Math.sqrt( (e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]) );
+    }
+
     /**
      * Add two vectors and return a new vector.
      */
@@ -54,6 +67,15 @@ public class Vec3 {
     }
 
     /**
+     * Divides each component of a vector by some factor.
+     * @param f : The factor by which to divide this vector.
+     * @return A new vector equal to this vector divided by a scalar factor.
+     */
+    public Vec3 div(float f) {
+        return new Vec3((e[0] / f), (e[1] / f), (e[2] / f));
+    }
+
+    /**
      * Take two vectors, multiply each according element (X1 x X2) and sum up the results of each
      *   addition. Ends up looking like this:
      *
@@ -71,6 +93,18 @@ public class Vec3 {
      */
     public float dotSelf() {
         return (e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]);
+    }
+
+    /**
+     * A unit vector can be obtained from by dividing the vector by it's magnitude, or length.
+     *
+     * This operation is also known as normalization in 2D/3D graphics. Essentially just returns
+     *   a vector with the same direction but a length/magnitude of 1.
+     *
+     * @return The same vector, but with a length/magnitude of 1
+     */
+    public Vec3 unitVector() {
+        return div(length());
     }
 
     @Override // For debugging purposes
