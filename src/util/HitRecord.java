@@ -7,16 +7,16 @@ public class HitRecord {
     /**
      * The point along a particular ray that we've hit some sort of object in our scene.
      */
-    float t;
+    public float t;
 
     /**
      * The point that we've hit on the object.
      */
-    Vec3 point;
+    public Vec3 point;
 
     /**
      * The surface normal calculated for this hit.
      * // TO DO - Explain how that calculation is done
      */
-    Vec3 normal;
+    public Vec3 normal;
 }

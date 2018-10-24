@@ -46,7 +46,8 @@ public abstract class PPMPrinter {
      * @param start : The start of the gradient
      * @param end : The end of the gradient
      *
-     * @return The color of a gradient between the start/end colors at some point along that gradient.
+     * @return The color of a gradient between the start/end colors at some point along that gradient. Return the
+     *   FULL color values (0 .. 255), and therefore doesn't need any additional use. 
      */
     protected Vec3 gradient(Ray r, float lerp, Vec3 start, Vec3 end) {
         Vec3 a = end.mult(1f - lerp);

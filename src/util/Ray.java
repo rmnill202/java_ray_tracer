@@ -17,11 +17,17 @@ public class Ray {
     }
 
     /**
+     * Determines the 3D-point along this ray that is associated with some scale factor of the ray.
+     *
      * @param t : The ray parameter, or how far along the ray you travel.
      * @return A new vector representing some point in 3D space that falls along the line represented by this ray.
      */
     public Vec3 pointAt(float t) {
         return (origin.add(direction.mult(t)));
+    }
+
+    public Vec3 origin() {
+        return this.origin;
     }
 
     public Vec3 direction() {

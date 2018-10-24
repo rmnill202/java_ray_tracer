@@ -1,5 +1,6 @@
 package chapters;
 
+import entities.Sphere;
 import util.PPMPrinter;
 import util.Ray;
 import util.Vec3;
@@ -14,16 +15,18 @@ public class Chapter_5 extends PPMPrinter {
             V_RED = new Vec3(255, 0, 0);
 
     // Data members
-    private Vec3 lowerLeft, horizontal, vertical, origin, sphereCenter;
+    private Vec3 lowerLeft, horizontal, vertical, origin;
+    private Sphere sphere;
 
     public Chapter_5() {
-        /////// Explanation can be found in the Chapter_3 constructor
-
+        // Set up some variables for representing our camera and projection plane
         lowerLeft = new Vec3(-2.0f, -1.0f, -1.0f);
         horizontal = new Vec3(4.0f, 0.0f, 0.0f);
         vertical = new Vec3(0.0f, 2.0f, 0.0f);
         origin = new Vec3(0.0f, 0.0f, 0.0f);
-        sphereCenter = new Vec3(0, 0, -1); // Located in the center of our screen, and on the projection plane
+
+        // Set up a sphere
+        sphere = new Sphere(0, 0, -1, 0.5f);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class Chapter_5 extends PPMPrinter {
 
         // Check if we're hitting a sphere
         Vec3 color;
-        float t = hitSphere(ray, this.sphereCenter, 0.5f); // The factor along the ray that hits the sphere
+        //float t = sphere.hitAlongPath(ray, 0, 5f, )(ray, this.sphereCenter, 0.5f); // The factor along the ray that hits the sphere
 
         // We check > 0, since the sphere should be in front of our camera
         if(t > 0) { // If we've hit the sphere, represent the surface normal with a unique color
@@ -64,44 +67,5 @@ public class Chapter_5 extends PPMPrinter {
 
         // Print out the pixel!
         System.out.println(ri + " " + gi + " " + bi);
-    }
-
-    /**
-     * Initial method of normal calculation.
-     *
-     * Takes a ray, determines if it can hit a given sphere, and returns
-     *   the factor along that ray that intersects the sphere at some point.
-     *
-     * @param ray : The ray we're checking
-     * @param sphereCenter : The center of the sphere
-     * @param sphereRadius : The radius of the sphere
-     *
-     * @return The factor along the ray (often called t) that the sphere
-     *   intersects with the ray, or -1 if the ray doesn't intersect the sphere.
-     */
-    public float hitSphere(Ray ray, Vec3 sphereCenter, float sphereRadius) {
-        /** Where the discriminant is b^2 - 4ac
-         ** And where origin = O, direction = D, Vc is the center of the sphere
-         *      Let a = DoD
-         *      Let b = 2*Do(O - Vc)
-         *      Let c = (O-Vc)o(O-Vc)
-         */
-        Vec3 osubvc = origin.subt(sphereCenter), direction = ray.direction();
-
-        // Determine the discriminant, which allows us to determine if we've intersected
-        //   the sphere once, twice or no times depending on its value.
-        float a = direction.dotSelf(),
-                b = 2 * direction.dot(osubvc),
-                c = osubvc.dotSelf() - (sphereRadius * sphereRadius),
-                discriminant = (b * b) - (4 * a * c);
-
-        // If we intersect the sphere at least once, determine the front-most intersection
-        if(discriminant >= 0) {
-            return ( (-b) - ((float)Math.sqrt(discriminant)) ) / (2.0f * a);
-        }
-        // The ray doesn't intersect the given sphere
-        else {
-            return -1;
-        }
     }
 }
