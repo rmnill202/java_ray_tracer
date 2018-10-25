@@ -1,5 +1,6 @@
 package chapters;
 
+import entities.HittableList;
 import entities.Sphere;
 import util.HitRecord;
 import util.PPMPrinter;
@@ -18,12 +19,11 @@ import util.Vec3;
 public class Chapter_5 extends PPMPrinter {
 
     // Our background will be a blue-to-white gradient!
-    private final static Vec3 V_BLUE = new Vec3(146, 219, 232), V_WHITE = new Vec3(255,255,255),
-            V_RED = new Vec3(255, 0, 0);
+    private final static Vec3 V_BLUE = new Vec3(146, 219, 232), V_WHITE = new Vec3(255,255,255);
 
     // Data members
     private Vec3 lowerLeft, horizontal, vertical, origin;
-    private Sphere sphere;
+    private HittableList entities;
     private HitRecord record;
 
     public Chapter_5() {
@@ -34,7 +34,10 @@ public class Chapter_5 extends PPMPrinter {
         origin = new Vec3(0.0f, 0.0f, 0.0f);
 
         // Set up a sphere
-        sphere = new Sphere(0, 0, -1, 0.5f);
+        entities = new HittableList(new Sphere(0, 0, -1, 0.5f),
+                                                new Sphere(0, -100.5f, -1, 100));
+        //entities = new HittableList(new Sphere(0, -100.5f, -1, 90));
+        //entities = new HittableList(new Sphere(0, 0, -1, 0.5f));
         record = new HitRecord();
     }
 
@@ -61,7 +64,7 @@ public class Chapter_5 extends PPMPrinter {
         Vec3 color;
 
         // We check > 0, since the sphere should be in front of our camera
-        if(sphere.hitAlongPath(ray, 0, 5f, record)) {
+        if(entities.hitAlongPath(ray, 0, Float.MAX_VALUE, record)) {
             // If we've hit the sphere, represent the surface normal with a unique color based on the vector
             Vec3 normal = record.normal;
             color = new Vec3(normal.x() + 1, normal.y() + 1, normal.z() + 1).mult(0.5f).mult(254.99f);

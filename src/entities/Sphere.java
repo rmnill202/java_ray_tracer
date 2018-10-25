@@ -33,17 +33,41 @@ public class Sphere implements Hittable {
 
         // If we intersect the sphere at least once, determine the front-most intersection
         if(discriminant >= 0) {
-            ////// Fill out the record object with new data.
-            // Find the t-value/point along the ray that intersects with the sphere
-            record.t = ( (-b) - ((float)Math.sqrt(discriminant)) ) / (2.0f * a);
+            float minusDisc = ( (-b) - ((float)Math.sqrt(discriminant)) ) / (2.0f * a),
+                   plusDisc = ( (-b) + ((float)Math.sqrt(discriminant)) ) / (2.0f * a);
 
-            // Find the point along this sphere that was intersected
-            record.point = path.pointAt(record.t);
+            // If one of the values is in range
+            if(minusDisc < tMax && minusDisc > tMin) {
+                ////// Fill out the record object with new data.
+                // Find the t-value/point along the ray that intersects with the sphere
+                record.t = minusDisc;
 
-            // Calculate the surface normal
-            record.normal = record.point.subt(center).div(radius);
+                // Find the point along this sphere that was intersected
+                record.point = path.pointAt(record.t);
 
-            return true;
+                // Calculate the surface normal
+                record.normal = record.point.subt(center).div(radius);
+
+                return true;
+            }
+
+            // Let's check if the other value is in range!
+            if(plusDisc < tMax && plusDisc > tMin) {
+                ////// Fill out the record object with new data.
+                // Find the t-value/point along the ray that intersects with the sphere
+                record.t = plusDisc;
+
+                // Find the point along this sphere that was intersected
+                record.point = path.pointAt(record.t);
+
+                // Calculate the surface normal
+                record.normal = record.point.subt(center).div(radius);
+
+                return true;
+            }
+
+            // Doesn't intersect
+            return false;
         }
         // The ray doesn't intersect this sphere
         else {
