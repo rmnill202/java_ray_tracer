@@ -72,7 +72,7 @@ public class Chapter_5 extends PPMPrinter {
             // Represent the surface normal with a unique color based on the normal vector
             Vec3 normal = record.normal;
 
-            // Convert from a range of (-1, 1) to (0, 2) to (1, 1) and finally to (0, 255)
+            // Convert from a range of (-1, 1) to (0, 2) to (0, 1) and finally to (0, 255)
             color = new Vec3(normal.x() + 1, normal.y() + 1, normal.z() + 1).mult(0.5f).mult(254.99f);
 
         } else {
