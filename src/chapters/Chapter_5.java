@@ -15,6 +15,14 @@ import util.Vec3;
  *   sphere is perfectly round, we can find the surface normal of a given point P by tracing from the center of the
  *   sphere to that point and then extending that ray further.
  *
+ * Imagine that we have a line extending from the center of the sphere outwards past all points along that sphere.
+ *   Those are essentially our normal vectors. This serves as the ground-work for basic shading of a diffuse surface.
+ *
+ *
+ * Later on, we'll take the normalized surface vector (surface normal) and the path from a light source bouncing off
+ *   of that point for shading! We essentially want to find the angle between these two vectors, which can be done
+ *   very easily if they're both normalized. Just take the dot product!
+ *
  */
 public class Chapter_5 extends PPMPrinter {
 
@@ -34,10 +42,8 @@ public class Chapter_5 extends PPMPrinter {
         origin = new Vec3(0.0f, 0.0f, 0.0f);
 
         // Set up a sphere
-        entities = new HittableList(new Sphere(0, 0, -1, 0.5f),
-                                                new Sphere(0, -100.5f, -1, 100));
-        //entities = new HittableList(new Sphere(0, -100.5f, -1, 90));
-        //entities = new HittableList(new Sphere(0, 0, -1, 0.5f));
+        entities = new HittableList(    new Sphere(0, 0, -1, 0.5f),
+                                        new Sphere(0, -100.5f, -1, 100)     );
         record = new HitRecord();
     }
 
@@ -59,14 +65,14 @@ public class Chapter_5 extends PPMPrinter {
 
         // Create a ray from our camera to the current pixel
         Ray ray = new Ray( origin, lowerLeft.add(horizontal.mult(u)).add(vertical.mult(v)) );
-
-        // Check if we're hitting a sphere
         Vec3 color;
 
-        // We check > 0, since the sphere should be in front of our camera
+       // Check if we've hit any entities
         if(entities.hitAlongPath(ray, 0, Float.MAX_VALUE, record)) {
-            // If we've hit the sphere, represent the surface normal with a unique color based on the vector
+            // Represent the surface normal with a unique color based on the normal vector
             Vec3 normal = record.normal;
+
+            // Convert from a range of (-1, 1) to (0, 2) to (1, 1) and finally to (0, 255)
             color = new Vec3(normal.x() + 1, normal.y() + 1, normal.z() + 1).mult(0.5f).mult(254.99f);
 
         } else {

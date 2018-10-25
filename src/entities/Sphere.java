@@ -36,31 +36,21 @@ public class Sphere implements Hittable {
             float minusDisc = ( (-b) - ((float)Math.sqrt(discriminant)) ) / (2.0f * a),
                    plusDisc = ( (-b) + ((float)Math.sqrt(discriminant)) ) / (2.0f * a);
 
-            // If one of the values is in range
-            if(minusDisc < tMax && minusDisc > tMin) {
-                ////// Fill out the record object with new data.
+            boolean useMinus = minusDisc < tMax && minusDisc > tMin,
+                    usePlus = plusDisc < tMax && plusDisc > tMin;
+
+            // If we've got a valid point along our ray at some point on the sphere
+            if(useMinus || usePlus) {
+
                 // Find the t-value/point along the ray that intersects with the sphere
-                record.t = minusDisc;
+                record.t = useMinus ? minusDisc : plusDisc;
 
                 // Find the point along this sphere that was intersected
                 record.point = path.pointAt(record.t);
 
-                // Calculate the surface normal
-                record.normal = record.point.subt(center).div(radius);
-
-                return true;
-            }
-
-            // Let's check if the other value is in range!
-            if(plusDisc < tMax && plusDisc > tMin) {
-                ////// Fill out the record object with new data.
-                // Find the t-value/point along the ray that intersects with the sphere
-                record.t = plusDisc;
-
-                // Find the point along this sphere that was intersected
-                record.point = path.pointAt(record.t);
-
-                // Calculate the surface normal
+                // Calculate the surface normal vector. We do this by subtracting the point along the surface
+                //   from the center, which gives us a not-normalized vector pointing out from the center. We then
+                //   divide by its radius to ensure that the value stays somewhere between -1 and 1.
                 record.normal = record.point.subt(center).div(radius);
 
                 return true;
