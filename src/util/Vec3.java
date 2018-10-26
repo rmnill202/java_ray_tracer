@@ -107,6 +107,13 @@ public class Vec3 {
         return div(length());
     }
 
+    /**
+     * @return The summation of each squared vector component
+     */
+    public float squaredLength() {
+        return (e[0] * e[0]) + (e[1] * e[1]) + (e[2] * e[2]);
+    }
+
     @Override // For debugging purposes
     public String toString() {
         return e[0] + "," + e[1] + "," + e[2];
